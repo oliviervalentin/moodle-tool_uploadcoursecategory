@@ -17,8 +17,7 @@
 /**
  * Bulk course registration functions
  *
- * @package    tool
- * @subpackage uploadcoursecategory
+ * @package    tool_uploadcoursecategory
  * @copyright  2004 onwards Martin Dougiamas (http://dougiamas.com)
  * @copyright  2012 Piers Harding
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -54,7 +53,9 @@ define('CC_PWRESET_ALL', 2);
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class cc_progress_tracker {
+    /** @var array $_row - list of table rows. */
     private $_row;
+    /** @var array $columns - list of table columns. */
     public $columns = ['status', 'line', 'id', 'name', 'idnumber', 'description', 'oldname', 'deleted'];
 
     /**
@@ -247,8 +248,8 @@ function cc_increment_idnumber($idnumber) {
 
 /**
  * Check if default field contains templates and apply them.
- * @param string template - potential tempalte string
- * @param object course object- we need coursename, firstname and lastname
+ * @param string $template - potential tempalte string
+ * @param object $course - we need coursename, firstname and lastname
  * @return string field value
  */
 function cc_process_template($template, $course) {
@@ -284,6 +285,11 @@ function cc_process_template($template, $course) {
 
 /**
  * Internal callback function.
+ * @param string $name
+ * @param string $description
+ * @param string $idnumber
+ * @param object $block
+ * @return string $repl
  */
 function cc_process_template_callback($name, $description, $idnumber, $block) {
 

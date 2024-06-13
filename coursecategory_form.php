@@ -17,8 +17,7 @@
 /**
  * Bulk course upload forms
  *
- * @package    tool
- * @subpackage uploadcoursecategory
+ * @package    tool_uploadcoursecategory
  * @copyright  2007 Dan Poltawski
  * @copyright  2012 Piers Harding
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -35,7 +34,12 @@ require_once($CFG->libdir.'/formslib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class admin_uploadcoursecategory_form1 extends moodleform {
-    public function definition () {
+    /**
+     * Form definition.
+     *
+     * @return void
+     */
+    public function definition() {
         $mform = $this->_form;
 
         $mform->addElement('header', 'settingsheader', get_string('upload'));
@@ -72,7 +76,12 @@ class admin_uploadcoursecategory_form1 extends moodleform {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class admin_uploadcoursecategory_form2 extends moodleform {
-    public function definition () {
+    /**
+     * Form definition.
+     *
+     * @return void
+     */
+    public function definition() {
         global $CFG, $COURSE, $DB;
 
         $mform   = $this->_form;
@@ -120,12 +129,14 @@ class admin_uploadcoursecategory_form2 extends moodleform {
         $mform->addElement('header', 'defaultheader', get_string('defaultvalues', 'tool_uploadcoursecategory'));
         $mform->addElement('text', 'ccname', get_string('ccnametemplate', 'tool_uploadcoursecategory'),
             'maxlength="100" size="20"');
+        $mform->setType('ccname', PARAM_TEXT);
         $mform->addHelpButton('ccname', 'namecoursecategory', 'tool_uploadcoursecategory');
         $mform->disabledIf('ccname', 'cctype', 'eq', CC_COURSE_ADD_UPDATE);
         $mform->disabledIf('ccname', 'cctype', 'eq', CC_COURSE_UPDATE);
 
         $mform->addElement('text', 'ccidnumber', get_string('ccidnumbertemplate', 'tool_uploadcoursecategory'),
         'maxlength="100" size="10"');
+        $mform->setType('ccidnumber', PARAM_TEXT);
         $mform->addHelpButton('ccidnumber', 'idnumbercoursecategory');
         $mform->disabledIf('ccidnumber', 'cctype', 'eq', CC_COURSE_ADD_UPDATE);
         $mform->disabledIf('ccidnumber', 'cctype', 'eq', CC_COURSE_UPDATE);
@@ -175,11 +186,14 @@ class admin_uploadcoursecategory_form2 extends moodleform {
                 $mform->removeElement($column);
             }
         }
-
     }
 
     /**
      * Server side validation.
+     * @param array $data  data from the form.
+     * @param array $files files uplaoded.
+     *
+     * @return array of errors.
      */
     public function validation($data, $files) {
         global $DB;

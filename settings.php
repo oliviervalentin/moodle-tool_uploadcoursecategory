@@ -17,8 +17,7 @@
 /**
  * Link to CSV course upload
  *
- * @package    tool
- * @subpackage uploadcoursecategory
+ * @package    tool_uploadcoursecategory
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
  * @copyright  2011 Piers Harding
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

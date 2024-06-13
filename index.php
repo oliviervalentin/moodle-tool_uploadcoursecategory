@@ -17,8 +17,7 @@
 /**
  * Bulk course registration script from a comma separated file
  *
- * @package    tool
- * @subpackage uploadcoursecategory
+ * @package    tool_uploadcoursecategory
  * @copyright  2004 onwards Martin Dougiamas (http://dougiamas.com)
  * @copyright  2012 Piers Harding
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -41,6 +40,8 @@ raise_memory_limit(MEMORY_HUGE);
 require_login();
 admin_externalpage_setup('tooluploadcoursecategory');
 require_capability('moodle/category:manage', context_system::instance());
+
+global $CFG, $DB, $OUTPUT;
 
 $strcoursecategoryrenamed             = get_string('coursecategoryrenamed', 'tool_uploadcoursecategory');
 $strcoursecategorynotrenamedexists    = get_string('coursecategorynotrenamedexists', 'tool_uploadcoursecategory');
@@ -334,7 +335,7 @@ if ($formdata = $mform2->is_cancelled()) {
             }
             if ($existingcategory) {
                 require_capability('moodle/category:manage', get_category_or_system_context((int)$existingcategory->parent));
-                $deletecat = coursecat::get($existingcategory->id, MUST_EXIST);
+                $deletecat = core_course_category::get($existingcategory->id, MUST_EXIST);
                 $deletecat->delete_full(false);
                 $upt->track('status', $strcoursecategorydeleted);
                 $deletes++;
@@ -520,7 +521,11 @@ if ($formdata = $mform2->is_cancelled()) {
                 $upt->track('status', $strcoursecategoryupdated);
                 $coursecategoriesupdated++;
 
-                events_trigger('coursecategory_updated', $existingcategory);
+                $event = \core\event\course_category_updated::create([
+                    'objectid' => $existingcategory->id,
+                    'context' => $existingcategory->context,
+                ]);
+                $event->trigger();
 
                 if ($bulk == CC_BULK_UPDATED || $bulk == CC_BULK_ALL) {
                     if (!in_array($coursecategory->id, $SESSION->bulk_coursecategories)) {
