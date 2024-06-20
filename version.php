@@ -24,6 +24,6 @@
  */
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version   = 2011091701;
-$plugin->requires  = 2011091600;
+$plugin->version   = 2024062001;
+$plugin->requires  = 2022041900;
 $plugin->component = 'tool_uploadcoursecategory';
